@@ -7,6 +7,7 @@ Original file is located at
     https://colab.research.google.com/drive/1RerMe3DHhx4co7m0zpE7Ow50eobY51HA
 """
 
+import os
 import cv2
 import custom_dataset
 import json
@@ -19,7 +20,7 @@ from matplotlib import pyplot as plt
 from postprocessing_utils import compare_pred_w_gt_boxes_only, get_consistency_boxes_only
 from tqdm.notebook import tqdm
 
-MOT15_TRAIN_PATH = os.path.join('../A/', 'MOT15/train/')
+MOT15_TRAIN_PATH = 'local/data/MOT15/train'
 GT_SUBPATH = 'gt/'
 IMG_SUBPATH = 'img1/'
 OUTPUT_DIR = 'experiment_results'
