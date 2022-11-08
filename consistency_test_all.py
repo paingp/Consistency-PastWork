@@ -8,9 +8,9 @@ Original file is located at
 """
 
 import os
+import json
 import cv2
 import custom_dataset
-import json
 import numpy as np
 import torch
 import torch.nn as nn
@@ -20,16 +20,16 @@ from matplotlib import pyplot as plt
 from postprocessing_utils import compare_pred_w_gt_boxes_only, get_consistency_boxes_only
 from tqdm.notebook import tqdm
 
-MOT15_TRAIN_PATH = 'local/data/MOT15/train'
+MOT15_TRAIN_PATH = '/local/data/MOT15/train'
 GT_SUBPATH = 'gt/'
 IMG_SUBPATH = 'img1/'
-OUTPUT_DIR = 'experiment_results'
+OUTPUT_DIR = 'results'
 
 TARGET_DEVICE = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
 EXPERIMENTS_TO_RUN = {
     "regular": None, # DO NOT EDIT THIS ONE
-    "horizontal flip": custom_dataset.ApplyHorizontalFlip(),
+    #"horizontal flip": custom_dataset.ApplyHorizontalFlip(),
     "boost contrast": custom_dataset.ApplySkimageGammaCorrection(),
     "Gaussian denoise": custom_dataset.ApplySkimageGaussian(),
     "unsharp mask": custom_dataset.ApplySkimageUnsharpMask(),
@@ -160,7 +160,7 @@ for model_name in MODELS_TO_USE:
             os.mkdir(os.path.join(OUTPUT_DIR, model_name, experiment_name))
         except Exception as e:
             pass
-        show_imgs = True if (model_name == "Faster-RCNN" and experiment_name != "regular") else False
+        show_imgs = False # True if (model_name == "Faster-RCNN" and experiment_name != "regular") else False
 
         print("EXPERIMENT: {0}, {1}".format(model_name, experiment_name))
         consistencies, accuracies = get_consistency_and_accuracy_for_MOT(MODELS_TO_USE[model_name], EXPERIMENTS_TO_RUN[experiment_name], os.path.join(OUTPUT_DIR, model_name, experiment_name), show_imgs)
